@@ -47,7 +47,7 @@ jobs:
           npm ci
       - name: Push build
         run: |
-          git add . -f
+          git add .
           git commit -m "The blocks of scratch!!!"
-          git push
+          git push -u origin develop-builds
           
