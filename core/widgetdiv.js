@@ -31,6 +31,7 @@
  * @namespace
  **/
 goog.provide('Blockly.WidgetDiv');
+goog.provide('Blockly.showContextMenu');
 
 goog.require('Blockly.Css');
 goog.require('goog.dom');
@@ -341,4 +342,44 @@ Blockly.WidgetDiv.calculateY_ = function(viewportBBox, anchorBBox, widgetSize) {
     // The top of the widget is at the bottom of the field.
     return anchorBBox.bottom;
   }
+};
+
+/**
+ * Creates a context menu.
+ * @param {MouseEvent} event The mouse event that created this context menu.
+ * @param {object[]} items The context menu items.
+ * @param {object?} options The context menu items.
+ */
+Blockly.showContextMenu = function(event, items, options) {
+  var widgit = Blockly.WidgetDiv.DIV;
+  var fakeEvent = {
+    button: 2,
+    clientX: 0,
+    clientY: 0,
+  };
+  if (widgit) {
+    fakeEvent.clientX = parseFloat(widgit.style.left);
+    fakeEvent.clientY = parseFloat(widgit.style.top);
+  }
+  event = event || fakeEvent;
+  options = options || {};
+  var workspace = Blockly.getMainWorkspace();
+  var isRTL = options.RTL || workspace.RTL;
+  var oldGesture = workspace.currentGesture_;
+  var fakegesture = !options.gesture;
+  workspace.currentGesture_ = options.gesture || {
+    currentBlock_: {},
+    startBubble_: {}
+  };
+  Blockly.ContextMenu.show(event, items, isRTL);
+  Blockly.ContextMenu.currentBlock = (
+    fakegesture ?
+      null :
+      workspace.currentGesture_.currentBlock_
+  );
+  var xy = goog.style.getViewportPageOffset(document);
+  widgit = Blockly.WidgetDiv.DIV;
+  widgit.style.left = (xy.x + (event.clientX || 0)) + 'px';
+  widgit.style.top = (xy.y + (event.clientY || 0)) + 'px';
+  workspace.currentGesture_ = oldGesture;
 };
