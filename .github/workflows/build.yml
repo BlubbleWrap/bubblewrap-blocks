@@ -19,7 +19,7 @@ jobs:
         run: |
           git config --global init.defaultBranch develop
           git init
-          git remote add origin git@github.com:BlubbleWrap/bubblewrap-blocks.git
+          git remote add origin https://github.com/BlubbleWrap/bubblewrap-blocks.git
           git fetch
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Actions"
