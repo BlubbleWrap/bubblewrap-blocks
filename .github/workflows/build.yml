@@ -15,10 +15,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          ref: 'develop-builds'
+      - name: Setup Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Actions"
+          git checkout origin/develop-builds
+          git pull
+          git merge origin/develop
       - name: Install node.js
         uses: actions/setup-node@26961cf329f22f6837d5f54c3efd76b480300ace #v4
         with:
@@ -34,11 +37,6 @@ jobs:
           java-version: 17
           distribution: adopt-hotspot
           java-package: jre
-      - name: Setup Git
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Actions"
-          git merge develop
       - name: CI and prepublish
         run: |
           npm ci
