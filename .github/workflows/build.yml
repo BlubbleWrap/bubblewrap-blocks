@@ -24,6 +24,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Actions"
           git checkout origin/develop-builds
+          git switch develop-builds
           git pull
           git merge origin/develop
       - name: Install node.js
