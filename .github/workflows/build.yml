@@ -15,6 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
       - name: Install node.js
         uses: actions/setup-node@26961cf329f22f6837d5f54c3efd76b480300ace #v4
         with:
