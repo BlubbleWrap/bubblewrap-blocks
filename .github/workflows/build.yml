@@ -17,7 +17,8 @@ jobs:
     steps:
       - name: Setup Git
         run: |
-          git init .
+          git config --global init.defaultBranch develop
+          git init
           git remote add origin git@github.com:BlubbleWrap/bubblewrap-blocks.git
           git fetch
           git config --local user.email "action@github.com"
